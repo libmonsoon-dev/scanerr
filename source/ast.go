@@ -48,6 +48,10 @@ func (v *astStringExtractor) visit(node ast.Node, push bool, stack []ast.Node) (
 		return
 	}
 
+	if str == "" {
+		return
+	}
+
 	v.addString(str, basicLit, stack)
 	return
 }
