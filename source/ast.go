@@ -32,7 +32,7 @@ func (v *astStringExtractor) Extract() *astStringExtractor {
 }
 
 func (v *astStringExtractor) visit(node ast.Node, push bool, stack []ast.Node) (proceed bool) {
-	if astutils.IsInImport(stack) {
+	if !push || astutils.IsInImport(stack) {
 		return
 	}
 	proceed = true
