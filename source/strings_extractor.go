@@ -31,19 +31,13 @@ func (s *stringsExtractor) ExtractStrings(pks []*packages.Package) (result []Str
 	sem := semaphore.NewSemaphore(s.conf.NumWorkers)
 
 	go func(pks []*packages.Package) {
-		packages.Visit(pks, func(p *packages.Package) bool {
-			if p == nil {
-				return false
-			}
-
+		packages.Visit(pks, nil, func(p *packages.Package) {
 			sem.Acquire()
 			go func() {
 				resultCh <- s.extractStrings(p)
 				sem.Release()
 			}()
-
-			return true
-		}, nil)
+		})
 
 		// wait until all workers exited
 		sem.AcquireAll()
