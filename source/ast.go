@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"go/ast"
 	"strconv"
+	"strings"
+	"unicode/utf8"
 
 	"golang.org/x/tools/go/ast/inspector"
 	"golang.org/x/tools/go/packages"
@@ -48,7 +50,8 @@ func (v *astStringExtractor) visit(node ast.Node, push bool, stack []ast.Node) (
 		return
 	}
 
-	if str == "" {
+	str = strings.TrimSpace(str)
+	if str == "" || !utf8.ValidString(str) {
 		return
 	}
 
