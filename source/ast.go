@@ -51,7 +51,8 @@ func (v *astStringExtractor) visit(node ast.Node, push bool, stack []ast.Node) (
 	}
 
 	str = strings.TrimSpace(str)
-	if str == "" || !utf8.ValidString(str) {
+	const minStrSize = 3
+	if len(str) < minStrSize || !utf8.ValidString(str) {
 		return
 	}
 
