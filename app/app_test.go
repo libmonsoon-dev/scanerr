@@ -18,7 +18,5 @@ func TestScanerr(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	for i := range result {
-		t.Log(result[i])
-	}
+	t.Log(result)
 }

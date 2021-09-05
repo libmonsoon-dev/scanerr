@@ -8,8 +8,8 @@ import (
 	"github.com/libmonsoon-dev/scanerr/config"
 	"github.com/libmonsoon-dev/scanerr/packages"
 	"github.com/libmonsoon-dev/scanerr/scanerr"
-	"github.com/libmonsoon-dev/scanerr/searcher"
 	"github.com/libmonsoon-dev/scanerr/source"
+	"github.com/libmonsoon-dev/scanerr/unfmt"
 )
 
 func NewScanerr(_ config.Config) *scanerr.Scanerr {
@@ -17,7 +17,7 @@ func NewScanerr(_ config.Config) *scanerr.Scanerr {
 		packages.NewLoader,
 		source.NewStringsExtractor,
 		scanerr.NewScanerr,
-		searcher.NewSearcher,
+		unfmt.NewMatcher,
 		wire.FieldsOf(new(config.Config), "ScanerrConfig", "PackagesLoaderConf", "StringsExtractorConfig"),
 	))
 }

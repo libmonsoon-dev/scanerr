@@ -9,8 +9,8 @@ import (
 	"github.com/libmonsoon-dev/scanerr/config"
 	"github.com/libmonsoon-dev/scanerr/packages"
 	"github.com/libmonsoon-dev/scanerr/scanerr"
-	"github.com/libmonsoon-dev/scanerr/searcher"
 	"github.com/libmonsoon-dev/scanerr/source"
+	"github.com/libmonsoon-dev/scanerr/unfmt"
 )
 
 // Injectors from app.go:
@@ -21,7 +21,7 @@ func NewScanerr(configConfig config.Config) *scanerr.Scanerr {
 	loader := packages.NewLoader(loaderConfig)
 	stringsExtractorConfig := configConfig.StringsExtractorConfig
 	stringsExtractor := source.NewStringsExtractor(stringsExtractorConfig)
-	searcherSearcher := searcher.NewSearcher()
-	scanerrScanerr := scanerr.NewScanerr(scanerrConfig, loader, stringsExtractor, searcherSearcher)
+	stringMatcher := unfmt.NewMatcher()
+	scanerrScanerr := scanerr.NewScanerr(scanerrConfig, loader, stringsExtractor, stringMatcher)
 	return scanerrScanerr
 }

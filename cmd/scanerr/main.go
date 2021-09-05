@@ -13,10 +13,9 @@ func main() {
 	s := app.NewScanerr(conf)
 	result, err := s.Scan(os.Args[1])
 	if err != nil {
-		panic(err)
+		fmt.Println("runtime error:", err)
+		os.Exit(1)
 	}
 
-	for i := range result {
-		fmt.Println(result[i])
-	}
+	fmt.Println(result)
 }

@@ -18,9 +18,11 @@ type LoaderConfig struct {
 }
 
 func NewLoader(conf LoaderConfig) (l Loader) {
+	const mode = packages.NeedImports | packages.NeedDeps | packages.NeedTypes | packages.NeedSyntax
+
 	l = &loader{
 		cfg: &packages.Config{
-			Mode: packages.LoadSyntax, // TODO: LoadAllSyntax
+			Mode: mode,
 		},
 		patterns: conf.Patterns,
 	}
@@ -58,8 +60,6 @@ func (l loader) Load() ([]*packages.Package, error) {
 	if !pkgErrors.IsEmpty() {
 		return nil, pkgErrors
 	}
-
-	fmt.Printf("loaded %v packages\n", len(pkgs))
 
 	return pkgs, nil
 }
