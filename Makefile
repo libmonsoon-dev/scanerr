@@ -3,11 +3,14 @@ LINTER_HOME = /tmp/go/lint/${APP_NAME}
 # https://github.com/golangci/golangci-lint/releases
 LINTER_VERSION = v1.42.0
 
+GO = go
+
 dependency:
-	go mod tidy && go mod vendor
+	$(GO) mod tidy
+	$(GO) mod vendor
 
 generate:
-	go generate -x ./...
+	$(GO) generate -x ./...
 
 lint:
 	@mkdir -p ${LINTER_HOME}
