@@ -2,6 +2,7 @@
   <configuration default="false" name="go test" type="GoTestRunConfiguration" factoryName="Go Test">
     <module name="scanerr" />
     <working_directory value="$PROJECT_DIR$" />
+    <go_parameters value="-race" />
     <kind value="DIRECTORY" />
     <package value="github.com/libmonsoon-dev/scanerr/..." />
     <directory value="$PROJECT_DIR$" />

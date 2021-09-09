@@ -20,3 +20,6 @@ lint:
 		-e GOLANGCI_LINT_CACHE=/root/lint/cache \
 		-w /app \
 	golangci/golangci-lint:${LINTER_VERSION} golangci-lint run -v
+
+test:
+	$(GO) test -race ./...
