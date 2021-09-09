@@ -1,4 +1,4 @@
-//+build wireinject
+//go:build wireinject
 
 package app
 
@@ -18,6 +18,6 @@ func NewScanerr(_ config.Config) *scanerr.Scanerr {
 		source.NewStringsExtractor,
 		scanerr.NewScanerr,
 		unfmt.NewMatcher,
-		wire.FieldsOf(new(config.Config), "ScanerrConfig", "PackagesLoaderConf", "StringsExtractorConfig"),
+		wire.FieldsOf(new(config.Config), "PackagesLoaderConf", "StringsExtractorConfig"),
 	))
 }

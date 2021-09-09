@@ -9,10 +9,9 @@ import (
 	"github.com/libmonsoon-dev/scanerr/source"
 )
 
-func NewScanerr(conf Config, packagesLoader packages.Loader, stringsExtractor source.StringsExtractor,
+func NewScanerr(packagesLoader packages.Loader, stringsExtractor source.StringsExtractor,
 	stringMatcher source.StringMatcher) *Scanerr {
 	s := &Scanerr{
-		conf:             conf,
 		packagesLoader:   packagesLoader,
 		stringsExtractor: stringsExtractor,
 		stringMatcher:    stringMatcher,
@@ -22,7 +21,6 @@ func NewScanerr(conf Config, packagesLoader packages.Loader, stringsExtractor so
 }
 
 type Scanerr struct {
-	conf             Config
 	packagesLoader   packages.Loader
 	stringsExtractor source.StringsExtractor
 	stringMatcher    source.StringMatcher
