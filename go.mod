@@ -5,6 +5,7 @@ go 1.17
 require (
 	github.com/google/wire v0.5.0
 	github.com/labstack/gommon v0.3.0
+	go.uber.org/goleak v1.1.11
 	golang.org/x/tools v0.1.5
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1
 )
