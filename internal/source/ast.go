@@ -10,7 +10,7 @@ import (
 	"golang.org/x/tools/go/ast/inspector"
 	"golang.org/x/tools/go/packages"
 
-	"github.com/libmonsoon-dev/scanerr/astutils"
+	"github.com/libmonsoon-dev/scanerr/internal/astutils"
 )
 
 func newAstStringExtractor(pkg *packages.Package) *astStringExtractor {

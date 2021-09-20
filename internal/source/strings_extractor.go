@@ -3,7 +3,7 @@ package source
 import (
 	"golang.org/x/tools/go/packages"
 
-	"github.com/libmonsoon-dev/scanerr/semaphore"
+	"github.com/libmonsoon-dev/scanerr/internal/semaphore"
 )
 
 type StringsExtractor interface {

@@ -5,8 +5,8 @@ import (
 	"go/ast"
 	"go/token"
 
+	"github.com/libmonsoon-dev/scanerr/internal/source"
 	v1 "github.com/libmonsoon-dev/scanerr/model/v1"
-	"github.com/libmonsoon-dev/scanerr/source"
 )
 
 func findUsages(strings []source.String, bounds [][2]int) []v1.ResultsListItem { // TODO

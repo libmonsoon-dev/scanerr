@@ -6,7 +6,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/libmonsoon-dev/scanerr/source"
+	"github.com/libmonsoon-dev/scanerr/internal/source"
 )
 
 func NewMatcher() source.StringMatcher {

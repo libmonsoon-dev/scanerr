@@ -3,10 +3,9 @@ package scanerr
 import (
 	"fmt"
 
+	"github.com/libmonsoon-dev/scanerr/internal/packages"
+	"github.com/libmonsoon-dev/scanerr/internal/source"
 	v1 "github.com/libmonsoon-dev/scanerr/model/v1"
-
-	"github.com/libmonsoon-dev/scanerr/packages"
-	"github.com/libmonsoon-dev/scanerr/source"
 )
 
 func NewScanner(packagesLoader packages.Loader, stringsExtractor source.StringsExtractor,

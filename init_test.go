@@ -1,4 +1,4 @@
-package app_test
+package scanerr_test
 
 import "github.com/labstack/gommon/color"
 

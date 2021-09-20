@@ -3,8 +3,8 @@ package config
 import (
 	"runtime"
 
-	"github.com/libmonsoon-dev/scanerr/packages"
-	"github.com/libmonsoon-dev/scanerr/source"
+	"github.com/libmonsoon-dev/scanerr/internal/packages"
+	"github.com/libmonsoon-dev/scanerr/internal/source"
 )
 
 type Config struct {

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/libmonsoon-dev/scanerr/app"
+	"github.com/libmonsoon-dev/scanerr"
 	"github.com/libmonsoon-dev/scanerr/config"
 )
 
@@ -16,7 +16,7 @@ func main() {
 	}
 
 	conf := config.DefaultConfig()
-	s := app.NewScanerr(conf)
+	s := scanerr.NewScanerr(conf)
 
 	for _, arg := range args {
 		result, err := s.Scan(arg)

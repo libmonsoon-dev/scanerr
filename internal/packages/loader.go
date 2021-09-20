@@ -3,9 +3,9 @@ package packages
 import (
 	"fmt"
 
-	"github.com/libmonsoon-dev/scanerr/errutils"
-
 	"golang.org/x/tools/go/packages"
+
+	"github.com/libmonsoon-dev/scanerr/internal/errutils"
 )
 
 type Loader interface {

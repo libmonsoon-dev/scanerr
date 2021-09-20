@@ -4,14 +4,14 @@
 //go:build !wireinject
 // +build !wireinject
 
-package app
+package scanerr
 
 import (
 	"github.com/libmonsoon-dev/scanerr/config"
-	"github.com/libmonsoon-dev/scanerr/packages"
-	"github.com/libmonsoon-dev/scanerr/scanerr"
-	"github.com/libmonsoon-dev/scanerr/source"
-	"github.com/libmonsoon-dev/scanerr/unfmt"
+	"github.com/libmonsoon-dev/scanerr/internal/packages"
+	"github.com/libmonsoon-dev/scanerr/internal/scanerr"
+	"github.com/libmonsoon-dev/scanerr/internal/source"
+	"github.com/libmonsoon-dev/scanerr/internal/unfmt"
 )
 
 // Injectors from app.go:

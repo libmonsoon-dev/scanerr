@@ -1,15 +1,15 @@
-package app_test
+package scanerr_test
 
 import (
 	"testing"
 
-	"github.com/libmonsoon-dev/scanerr/app"
+	app "github.com/libmonsoon-dev/scanerr"
 	"github.com/libmonsoon-dev/scanerr/config"
 )
 
 func Benchmark(b *testing.B) {
 	conf := config.DefaultConfig()
-	conf.PackagesLoaderConf.Patterns = []string{"../testdata/file-not-found/cmd"}
+	conf.PackagesLoaderConf.Patterns = []string{"./testdata/file-not-found/cmd"}
 	s := app.NewScanerr(conf)
 
 	inputErr := "runtime error: open /not-exist: open /not-exist: file does not exist"
