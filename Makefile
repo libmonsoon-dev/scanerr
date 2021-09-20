@@ -13,7 +13,7 @@ generate:
 	$(GO) generate -x ./...
 
 git-add-generated:
-	git add "**/*_string.go" "**/*_gen.go"
+	git add "**/*_string.go" "*_gen.go"
 
 type-check:
 	$(GO) build -v ./...
