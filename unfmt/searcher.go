@@ -32,7 +32,7 @@ func (m *matcher) FilterMatched(originalError string, input []source.String) ([]
 
 	var matches [][2]int
 	// TODO: change input type from slice to channel
-	input, regexpList, matches = filter(originalError, input, regexpList)
+	input, matches = filter(originalError, input, regexpList)
 	sortStrings(input, matches)
 
 	return input, matches
@@ -79,7 +79,7 @@ func (m *matcher) unfmt(value string) string {
 	return value
 }
 
-func filter(originalError string, input []source.String, regexpList []*regexp.Regexp) ([]source.String, []*regexp.Regexp, [][2]int) {
+func filter(originalError string, input []source.String, regexpList []*regexp.Regexp) ([]source.String, [][2]int) {
 	n := 0
 
 	matches := make([][2]int, 0)
@@ -101,5 +101,5 @@ func filter(originalError string, input []source.String, regexpList []*regexp.Re
 		n++
 	}
 
-	return input[:n], regexpList[:n], matches
+	return input[:n], matches
 }

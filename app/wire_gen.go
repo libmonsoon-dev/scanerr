@@ -16,12 +16,12 @@ import (
 
 // Injectors from app.go:
 
-func NewScanerr(configConfig config.Config) *scanerr.Scanerr {
+func NewScanerr(configConfig config.Config) *scanerr.Scanner {
 	loaderConfig := configConfig.PackagesLoaderConf
 	loader := packages.NewLoader(loaderConfig)
 	stringsExtractorConfig := configConfig.StringsExtractorConfig
 	stringsExtractor := source.NewStringsExtractor(stringsExtractorConfig)
 	stringMatcher := unfmt.NewMatcher()
-	scanerrScanerr := scanerr.NewScanerr(loader, stringsExtractor, stringMatcher)
-	return scanerrScanerr
+	scanner := scanerr.NewScanner(loader, stringsExtractor, stringMatcher)
+	return scanner
 }
