@@ -12,11 +12,11 @@ import (
 	"github.com/libmonsoon-dev/scanerr/unfmt"
 )
 
-func NewScanerr(_ config.Config) *scanerr.Scanerr {
+func NewScanerr(_ config.Config) *scanerr.Scanner {
 	panic(wire.Build(
 		packages.NewLoader,
 		source.NewStringsExtractor,
-		scanerr.NewScanerr,
+		scanerr.NewScanner,
 		unfmt.NewMatcher,
 		wire.FieldsOf(new(config.Config), "PackagesLoaderConf", "StringsExtractorConfig"),
 	))

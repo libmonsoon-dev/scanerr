@@ -9,9 +9,9 @@ import (
 	"github.com/libmonsoon-dev/scanerr/source"
 )
 
-func NewScanerr(packagesLoader packages.Loader, stringsExtractor source.StringsExtractor,
-	stringMatcher source.StringMatcher) *Scanerr {
-	s := &Scanerr{
+func NewScanner(packagesLoader packages.Loader, stringsExtractor source.StringsExtractor,
+	stringMatcher source.StringMatcher) *Scanner {
+	s := &Scanner{
 		packagesLoader:   packagesLoader,
 		stringsExtractor: stringsExtractor,
 		stringMatcher:    stringMatcher,
@@ -20,13 +20,13 @@ func NewScanerr(packagesLoader packages.Loader, stringsExtractor source.StringsE
 	return s
 }
 
-type Scanerr struct {
+type Scanner struct {
 	packagesLoader   packages.Loader
 	stringsExtractor source.StringsExtractor
 	stringMatcher    source.StringMatcher
 }
 
-func (s *Scanerr) Scan(inputErr string) (*v1.Result, error) {
+func (s *Scanner) Scan(inputErr string) (*v1.Result, error) {
 	pkgs, err := s.packagesLoader.Load()
 	if err != nil {
 		return nil, fmt.Errorf("load packages: %w", err)
