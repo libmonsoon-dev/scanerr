@@ -12,12 +12,14 @@ import (
 func TestScanerr(t *testing.T) {
 	defer goleak.VerifyNone(t)
 
-	conf := config.DefaultConfig()
-	conf.PackagesLoaderConf.Patterns = []string{"./testdata/file-not-found/cmd"}
-	s := app.NewScanerr(conf)
+	appConf := config.DefaultAppConfig()
+	s := app.NewScanerr(appConf)
+
+	scannerConf := config.DefaultScannerConfig()
+	scannerConf.PackagesLoaderConf.Patterns = []string{"./testdata/file-not-found/cmd"}
 
 	inputErr := "runtime error: open /not-exist: open /not-exist: file does not exist"
-	result, err := s.Scan(inputErr)
+	result, err := s.Scan(inputErr, scannerConf)
 	if err != nil {
 		t.Fatal(err)
 	}

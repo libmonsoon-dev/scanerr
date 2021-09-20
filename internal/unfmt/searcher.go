@@ -9,16 +9,16 @@ import (
 	"github.com/libmonsoon-dev/scanerr/internal/source"
 )
 
-func NewMatcher() source.StringMatcher {
-	s := &matcher{}
+func NewStringsMatcher() *StringsMatcher {
+	s := &StringsMatcher{}
 
 	return s
 }
 
-type matcher struct {
+type StringsMatcher struct {
 }
 
-func (m *matcher) FilterMatched(originalError string, input []source.String) ([]source.String, [][2]int) {
+func (m *StringsMatcher) FilterMatched(originalError string, input []source.String) ([]source.String, [][2]int) {
 	regexpList := make([]*regexp.Regexp, len(input))
 	var err error
 	for i := range input {
@@ -69,7 +69,7 @@ func sortStrings(input []source.String, matches [][2]int) {
 	sort.Stable(byMatchIndex{input, matches})
 }
 
-func (m *matcher) unfmt(value string) string {
+func (m *StringsMatcher) unfmt(value string) string {
 	value = regexp.QuoteMeta(value)
 
 	// TODO: unfmt

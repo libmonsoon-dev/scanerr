@@ -8,12 +8,14 @@ import (
 )
 
 func Benchmark(b *testing.B) {
-	conf := config.DefaultConfig()
-	conf.PackagesLoaderConf.Patterns = []string{"./testdata/file-not-found/cmd"}
-	s := app.NewScanerr(conf)
+	appConf := config.DefaultAppConfig()
+	s := app.NewScanerr(appConf)
+
+	scannerConf := config.DefaultScannerConfig()
+	scannerConf.PackagesLoaderConf.Patterns = []string{"./testdata/file-not-found/cmd"}
 
 	inputErr := "runtime error: open /not-exist: open /not-exist: file does not exist"
-	_, err := s.Scan(inputErr)
+	_, err := s.Scan(inputErr, scannerConf)
 	if err != nil {
 		b.Fatal(err)
 	}
@@ -22,7 +24,7 @@ func Benchmark(b *testing.B) {
 	b.ReportAllocs()
 
 	for i := 0; i < b.N; i++ {
-		_, err := s.Scan(inputErr)
+		_, err := s.Scan(inputErr, scannerConf)
 		if err != nil {
 			b.Fatal(err)
 		}

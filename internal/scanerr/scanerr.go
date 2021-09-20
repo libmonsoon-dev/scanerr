@@ -3,13 +3,13 @@ package scanerr
 import (
 	"fmt"
 
-	"github.com/libmonsoon-dev/scanerr/internal/packages"
-	"github.com/libmonsoon-dev/scanerr/internal/source"
+	"github.com/libmonsoon-dev/scanerr/config"
+	"github.com/libmonsoon-dev/scanerr/internal/source/packages"
 	v1 "github.com/libmonsoon-dev/scanerr/model/v1"
 )
 
-func NewScanner(packagesLoader packages.Loader, stringsExtractor source.StringsExtractor,
-	stringMatcher source.StringMatcher) *Scanner {
+func NewScanner(packagesLoader PackagesLoader, stringsExtractor SourceStringsExtractor,
+	stringMatcher SourceStringMatcher) *Scanner {
 	s := &Scanner{
 		packagesLoader:   packagesLoader,
 		stringsExtractor: stringsExtractor,
@@ -20,13 +20,13 @@ func NewScanner(packagesLoader packages.Loader, stringsExtractor source.StringsE
 }
 
 type Scanner struct {
-	packagesLoader   packages.Loader
-	stringsExtractor source.StringsExtractor
-	stringMatcher    source.StringMatcher
+	packagesLoader   PackagesLoader
+	stringsExtractor SourceStringsExtractor
+	stringMatcher    SourceStringMatcher
 }
 
-func (s *Scanner) Scan(inputErr string) (*v1.Result, error) {
-	pkgs, err := s.packagesLoader.Load()
+func (s *Scanner) Scan(inputErr string, config config.ScannerConfig) (*v1.Result, error) {
+	pkgs, err := s.packagesLoader.Load(config.PackagesLoaderConf)
 	if err != nil {
 		return nil, fmt.Errorf("load packages: %w", err)
 	}

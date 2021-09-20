@@ -1,4 +1,4 @@
-package source
+package extractor
 
 import (
 	"fmt"
@@ -11,6 +11,7 @@ import (
 	"golang.org/x/tools/go/packages"
 
 	"github.com/libmonsoon-dev/scanerr/internal/astutils"
+	"github.com/libmonsoon-dev/scanerr/internal/source"
 )
 
 func newAstStringExtractor(pkg *packages.Package) *astStringExtractor {
@@ -22,7 +23,7 @@ func newAstStringExtractor(pkg *packages.Package) *astStringExtractor {
 }
 
 type astStringExtractor struct {
-	result     []String
+	result     []source.String
 	inspector  *inspector.Inspector
 	currentPkg *packages.Package
 }
@@ -61,7 +62,7 @@ func (v *astStringExtractor) visit(node ast.Node, push bool, stack []ast.Node) (
 }
 
 func (v *astStringExtractor) addString(str string, node *ast.BasicLit, stack []ast.Node) {
-	result := String{
+	result := source.String{
 		Value:   str,
 		Node:    node,
 		Stack:   stack,
@@ -71,6 +72,6 @@ func (v *astStringExtractor) addString(str string, node *ast.BasicLit, stack []a
 	v.result = append(v.result, result)
 }
 
-func (v *astStringExtractor) Result() []String {
+func (v *astStringExtractor) Result() []source.String {
 	return v.result
 }

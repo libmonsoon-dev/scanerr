@@ -15,11 +15,12 @@ func main() {
 		os.Exit(1)
 	}
 
-	conf := config.DefaultConfig()
-	s := scanerr.NewScanerr(conf)
+	appConf := config.DefaultAppConfig()
+	s := scanerr.NewScanerr(appConf)
 
+	scannerConf := config.DefaultScannerConfig()
 	for _, arg := range args {
-		result, err := s.Scan(arg)
+		result, err := s.Scan(arg, scannerConf)
 		if err != nil {
 			fmt.Println("runtime error:", err)
 			os.Exit(1)

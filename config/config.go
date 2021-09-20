@@ -1,25 +1,31 @@
 package config
 
-import (
-	"runtime"
+import "runtime"
 
-	"github.com/libmonsoon-dev/scanerr/internal/packages"
-	"github.com/libmonsoon-dev/scanerr/internal/source"
-)
-
-type Config struct {
-	PackagesLoaderConf     packages.LoaderConfig
-	StringsExtractorConfig source.StringsExtractorConfig
+type ScannerConfig struct {
+	PackagesLoaderConf LoaderConfig
 }
 
-func DefaultConfig() Config {
-	return Config{
-		PackagesLoaderConf: packages.LoaderConfig{
-			UseCache: true,
+type AppConfig struct {
+	StringsExtractorConfig StringsExtractorConfig
+	CacheConfig            CacheConfig
+}
+
+func DefaultScannerConfig() ScannerConfig {
+	return ScannerConfig{
+		PackagesLoaderConf: LoaderConfig{
 			Patterns: []string{"./..."},
 		},
-		StringsExtractorConfig: source.StringsExtractorConfig{
+	}
+}
+
+func DefaultAppConfig() AppConfig {
+	return AppConfig{
+		StringsExtractorConfig: StringsExtractorConfig{
 			NumWorkers: runtime.NumCPU(),
+		},
+		CacheConfig: CacheConfig{
+			UseLoaderCache: true,
 		},
 	}
 }
