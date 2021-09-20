@@ -9,13 +9,21 @@ import (
 )
 
 func main() {
-	conf := config.DefaultConfig()
-	s := app.NewScanerr(conf)
-	result, err := s.Scan(os.Args[1])
-	if err != nil {
-		fmt.Println("runtime error:", err)
+	args := os.Args[1:]
+	if len(args) == 0 {
+		fmt.Printf("Not enough arguments in call %v", os.Args[0])
 		os.Exit(1)
 	}
 
-	fmt.Println(result)
+	conf := config.DefaultConfig()
+	s := app.NewScanerr(conf)
+
+	for _, arg := range args {
+		result, err := s.Scan(arg)
+		if err != nil {
+			fmt.Println("runtime error:", err)
+			os.Exit(1)
+		}
+		fmt.Println(result)
+	}
 }
