@@ -5,11 +5,11 @@ package scanerr
 import (
 	"github.com/google/wire"
 
-	"github.com/libmonsoon-dev/scanerr/internal/cache"
+	"github.com/libmonsoon-dev/scanerr/internal/source/ast"
 
 	"github.com/libmonsoon-dev/scanerr/config"
+	"github.com/libmonsoon-dev/scanerr/internal/cache"
 	"github.com/libmonsoon-dev/scanerr/internal/scanerr"
-	"github.com/libmonsoon-dev/scanerr/internal/source/extractor"
 	"github.com/libmonsoon-dev/scanerr/internal/source/packages"
 	"github.com/libmonsoon-dev/scanerr/internal/unfmt"
 )
@@ -18,7 +18,8 @@ func NewScanerr(_ config.AppConfig) *scanerr.Scanner {
 	panic(wire.Build(
 		scanerr.NewScanner,
 		newPackageLoader,
-		newStringsExtractor,
+		newPackagesStringsExtractor,
+		newASTStringsExtractor,
 		unfmt.NewStringsMatcher,
 
 		wire.Bind(new(scanerr.SourceStringMatcher), new(*unfmt.StringsMatcher)),
@@ -37,9 +38,18 @@ func newPackageLoader(cacheConfig config.CacheConfig) (l scanerr.PackagesLoader)
 	return
 }
 
-func newStringsExtractor(conf config.StringsExtractorConfig) scanerr.SourceStringsExtractor {
+func newPackagesStringsExtractor(conf config.StringsExtractorConfig, factory packages.ASTStringExtractorFactory) scanerr.SourceStringsExtractor {
 	if conf.NumWorkers > 1 {
-		return extractor.NewConcurrentStringsExtractor(conf)
+		return packages.NewConcurrentStringsExtractor(conf, factory)
 	}
-	return extractor.NewStringsExtractor()
+	return packages.NewStringsExtractor(factory)
+}
+
+func newASTStringsExtractor(cacheConfig config.CacheConfig) (f packages.ASTStringExtractorFactory) {
+	f = ast.NewStringExtractorFactory()
+
+	if cacheConfig.UseStringsExtractorCache {
+		f = cache.NewStringExtractorFactory(f)
+	}
+	return
 }

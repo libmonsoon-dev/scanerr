@@ -25,7 +25,8 @@ func DefaultAppConfig() AppConfig {
 			NumWorkers: runtime.NumCPU(),
 		},
 		CacheConfig: CacheConfig{
-			UseLoaderCache: true,
+			UseLoaderCache:           true,
+			UseStringsExtractorCache: true,
 		},
 	}
 }

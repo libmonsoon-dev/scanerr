@@ -50,7 +50,7 @@ func newPackagesStringsExtractor(conf config.StringsExtractorConfig, factory pac
 func newASTStringsExtractor(cacheConfig config.CacheConfig) (f packages.ASTStringExtractorFactory) {
 	f = ast.NewStringExtractorFactory()
 
-	if cacheConfig.UseStringExtractorCache {
+	if cacheConfig.UseStringsExtractorCache {
 		f = cache.NewStringExtractorFactory(f)
 	}
 	return

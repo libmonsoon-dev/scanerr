@@ -3,8 +3,9 @@ package scanerr
 import (
 	"fmt"
 
-	"github.com/libmonsoon-dev/scanerr/config"
 	"github.com/libmonsoon-dev/scanerr/internal/source/packages"
+
+	"github.com/libmonsoon-dev/scanerr/config"
 	v1 "github.com/libmonsoon-dev/scanerr/model/v1"
 )
 

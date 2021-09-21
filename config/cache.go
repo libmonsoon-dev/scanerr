@@ -1,5 +1,6 @@
 package config
 
 type CacheConfig struct {
-	UseLoaderCache bool
+	UseLoaderCache           bool
+	UseStringsExtractorCache bool
 }

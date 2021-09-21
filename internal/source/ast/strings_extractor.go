@@ -1,10 +1,11 @@
-package extractor
+package ast
 
 import (
 	"fmt"
 	"go/ast"
 	"strconv"
 	"strings"
+	"sync"
 	"unicode/utf8"
 
 	"golang.org/x/tools/go/ast/inspector"
@@ -14,27 +15,37 @@ import (
 	"github.com/libmonsoon-dev/scanerr/internal/source"
 )
 
-func newAstStringExtractor(pkg *packages.Package) *astStringExtractor {
-	v := &astStringExtractor{
+func NewStringExtractorFactory() *StringExtractorFactory {
+	return &StringExtractorFactory{}
+}
+
+type StringExtractorFactory struct{}
+
+func (StringExtractorFactory) CreateForPackage(pkg *packages.Package) *StringExtractor {
+	v := &StringExtractor{
 		inspector:  inspector.New(pkg.Syntax),
 		currentPkg: pkg,
 	}
 	return v
 }
 
-type astStringExtractor struct {
-	result     []source.String
+type StringExtractor struct {
 	inspector  *inspector.Inspector
 	currentPkg *packages.Package
+
+	once   sync.Once
+	result []source.String
 }
 
-func (v *astStringExtractor) Extract() *astStringExtractor {
-	types := []ast.Node{(*ast.BasicLit)(nil)}
-	v.inspector.WithStack(types, v.visit)
-	return v
+func (v *StringExtractor) Extract() []source.String {
+	v.once.Do(func() {
+		types := []ast.Node{(*ast.BasicLit)(nil)}
+		v.inspector.WithStack(types, v.visit)
+	})
+	return v.result
 }
 
-func (v *astStringExtractor) visit(node ast.Node, push bool, stack []ast.Node) (proceed bool) {
+func (v *StringExtractor) visit(node ast.Node, push bool, stack []ast.Node) (proceed bool) {
 	if !push || astutils.IsInImport(stack) {
 		return
 	}
@@ -61,7 +72,7 @@ func (v *astStringExtractor) visit(node ast.Node, push bool, stack []ast.Node) (
 	return
 }
 
-func (v *astStringExtractor) addString(str string, node *ast.BasicLit, stack []ast.Node) {
+func (v *StringExtractor) addString(str string, node *ast.BasicLit, stack []ast.Node) {
 	result := source.String{
 		Value:   str,
 		Node:    node,
@@ -70,8 +81,4 @@ func (v *astStringExtractor) addString(str string, node *ast.BasicLit, stack []a
 	}
 
 	v.result = append(v.result, result)
-}
-
-func (v *astStringExtractor) Result() []source.String {
-	return v.result
 }

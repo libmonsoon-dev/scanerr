@@ -1,22 +1,29 @@
-package extractor
+package packages
 
 import (
 	"golang.org/x/tools/go/packages"
 
-	"github.com/libmonsoon-dev/scanerr/internal/source"
-
 	"github.com/libmonsoon-dev/scanerr/config"
-
 	"github.com/libmonsoon-dev/scanerr/internal/semaphore"
+	"github.com/libmonsoon-dev/scanerr/internal/source"
+	"github.com/libmonsoon-dev/scanerr/internal/source/ast"
 )
 
-func NewStringsExtractor() *StringsExtractor {
-	s := &StringsExtractor{}
+type ASTStringExtractorFactory interface {
+	CreateForPackage(p *packages.Package) *ast.StringExtractor
+}
+
+func NewStringsExtractor(factory ASTStringExtractorFactory) *StringsExtractor {
+	s := &StringsExtractor{
+		factory: factory,
+	}
 
 	return s
 }
 
-type StringsExtractor struct{}
+type StringsExtractor struct {
+	factory ASTStringExtractorFactory
+}
 
 func (s *StringsExtractor) ExtractStrings(pks []*packages.Package) (result []source.String) {
 	packages.Visit(pks, nil, func(p *packages.Package) {
@@ -27,21 +34,23 @@ func (s *StringsExtractor) ExtractStrings(pks []*packages.Package) (result []sou
 }
 
 func (s *StringsExtractor) extractStrings(p *packages.Package) []source.String {
-	return newAstStringExtractor(p).
-		Extract().
-		Result()
+	return s.factory.
+		CreateForPackage(p).
+		Extract()
 }
 
-func NewConcurrentStringsExtractor(conf config.StringsExtractorConfig) *ConcurrentStringsExtractor {
+func NewConcurrentStringsExtractor(conf config.StringsExtractorConfig, factory ASTStringExtractorFactory) *ConcurrentStringsExtractor {
 	s := &ConcurrentStringsExtractor{
-		conf: conf,
+		conf:    conf,
+		factory: factory,
 	}
 
 	return s
 }
 
 type ConcurrentStringsExtractor struct {
-	conf config.StringsExtractorConfig
+	conf    config.StringsExtractorConfig
+	factory ASTStringExtractorFactory
 }
 
 func (s *ConcurrentStringsExtractor) ExtractStrings(pks []*packages.Package) (result []source.String) {
@@ -70,7 +79,7 @@ func (s *ConcurrentStringsExtractor) ExtractStrings(pks []*packages.Package) (re
 }
 
 func (s *ConcurrentStringsExtractor) extractStrings(p *packages.Package) []source.String {
-	return newAstStringExtractor(p).
-		Extract().
-		Result()
+	return s.factory.
+		CreateForPackage(p).
+		Extract()
 }
